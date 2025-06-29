@@ -51,7 +51,7 @@ def get_racquet_specs(soup: BeautifulSoup) -> dict:
     
     if soup.find("tbody"):
         racquet_spec_elements = soup.find("tbody")\
-            .find_all("td", class_ = re.compile("Specs"))
+            .find_all("td", class_ = re.compile("Specs")) # type:ignore
         
         for spec in racquet_spec_elements:
             if spec.find("strong"):
@@ -92,14 +92,14 @@ def get_racquet_features(product_page_URL: str) -> pd.DataFrame:
     
     racquet_info["racquet_img"] = soup \
         .find("img", attrs = {"class": "main_image is-zoomable"}) \
-            .get("src")
+            .get("src") # type:ignore
     racquet_info["racquet_name"] = soup \
-        .find("h1", attrs = {"class": "h2 desc_top-head-title"}).text
+        .find("h1", attrs = {"class": "h2 desc_top-head-title"}).text # type:ignore
     
     # Check if the racket has ratings, if not assign the rating as NA
     if soup.find("div", attrs = {"class": "review_agg"}):
         racquet_info["racquet_rating"] = float(soup \
-            .find("div", attrs = {"class": "review_agg"}).text)
+            .find("div", attrs = {"class": "review_agg"}).text) # type:ignore
     else:
         racquet_info["racquet_rating"] = np.nan
 
@@ -107,52 +107,10 @@ def get_racquet_features(product_page_URL: str) -> pd.DataFrame:
     #racquet_info["racquet_rating"] = float(soup.find("div", attrs = {"class": "review_agg"}).text)
     
     racquet_info["racquet_price"] = float(soup \
-        .find("span", attrs = {"class": "afterpay-full_price"}).text)
+        .find("span", attrs = {"class": "afterpay-full_price"}).text) # type:ignore
     
     racquet_info["racquet_desc"] = soup \
-        .find("div", attrs = {"class": "check_read-inner"}).text
-    
-    ## The if statment below doesn't work because there was more than one inconsistency with the description tagging
-    #if soup.find("p", attrs = {"style": "text-align: justify;"}):
-    #    racquet_info["racquet_desc"] = soup.find("p", attrs = {"style": "text-align: justify;"}).text
-    #else:
-    #    racquet_info["racquet_desc"] = soup.find("div", attrs = {"style": "text-align: justify;"}).text
-    
-    ## The code below doesn't work because not all racket descriptions are written between p tags
-    #racquet_info["racquet_desc"] = soup.find("p", attrs = {"style": "text-align: justify;"}).text
-    
-    #Extract racquet specs
-    # racquet_specs = {}
-    # if soup.find("tbody"):
-    #     racquet_spec_elements = soup.find("tbody").find_all("td", class_=re.compile("Specs"))
-            
-    #     for spec in racquet_spec_elements:
-    #         if spec.find("strong"):
-    #             label = spec.find("strong").text.split(":")[0].strip()
-    #             value = spec.text.split(":")[1].strip()
-    #         else:
-    #             label = "Other"
-    #             value = spec.text.strip()
-                
-    #         #label = spec.find("strong").text.split(":")[0].strip()
-    #         #value = spec.text.split(":")[1].strip()
-    #         racquet_specs[label] = value
-    # else:
-    #     racquet_specs = {"Head Size": np.nan,
-    #               "Length": np.nan,
-    #               "Strung Weight": np.nan,
-    #               'Balance:': np.nan,
-    #               'Swingweight:': np.nan,
-    #               'Stiffness:': np.nan,
-    #               'Beam Width:': np.nan,
-    #               'Composition:': np.nan,
-    #               'Power Level:': np.nan,
-    #               'Stroke Style:': np.nan,
-    #               'Swing Speed:': np.nan,
-    #               'Racquet Colors:': np.nan,
-    #               'Grip Type:': np.nan,
-    #               'String Pattern:': np.nan,
-    #               'String Tension:': np.nan}
+        .find("div", attrs = {"class": "check_read-inner"}).text # type:ignore
     
     # Use get_racquet_specs helper function
     racquet_specs = get_racquet_specs(soup)
@@ -171,17 +129,11 @@ def scrape_brand_page(brand_page_URL):
     product_URLs = get_product_page_URLs(brand_page_URL= brand_page_URL)
     
     total_racquet_info_df = pd.DataFrame()
-    i = 0
     for product_URL in product_URLs:
         racquet_info_df = get_racquet_features(product_URL)
         total_racquet_info_df = pd.concat([total_racquet_info_df,
                                            racquet_info_df])
-        #print(f"Completed racket{i}")
-        
-        #logging.debug(f"Completed racket {i}")
-        i += 1
-    
-    #logging.info(f"Successfully scraped all {i} rackets (whew)!")
+ 
     return total_racquet_info_df
 
 
@@ -216,7 +168,7 @@ if __name__ == "__main__":
             [complete_racquet_info_df, brand_df]
         )
     
-    print("Scraping complete. Congrats on not fucking up!")
+    print("Scraping complete. Congrats on not messing up!")
     print("--------------------------") 
     print(complete_racquet_info_df.shape)
     print("--------------------------") 
@@ -231,4 +183,4 @@ if __name__ == "__main__":
                                         index = False, sep = ",")
     
     else:
-        print("Ogei.")
+        print("Ogei bye.")
