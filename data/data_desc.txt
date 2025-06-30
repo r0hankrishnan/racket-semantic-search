@@ -1,0 +1,35 @@
+1. data/raw/racquet_features_raw.csv
+    - The raw dataset generated from scraping TW's website
+
+2. data/interim/racquets_no_junior.csv
+    - The raw dataset with all racquets containing the 
+    word "Junior" in their name removed
+
+3. data/interim/racquets_njnd.csv
+    - Stands for "no junior no duplicates"
+    - The raw data set with all racquets containing the word 
+    "Junior" in their name removed AND all columns with more 
+    than 95% NA values removed.
+
+4. data/interim/racquets_trimmed:
+    - The raw data set with all racquets containing the word
+    "Junior" in their name removed, all columns with more than
+    95% NA values removed, AND the following changes:
+        - Columns converted from str to float:
+            - Head Size -> racquet_head_size_sq_in
+            - Length -> racquet_length_in
+            - Strung Weight -> racquet_strung_weight_oz
+            - Balance -> racquet_balance_in & racquet_balance_HH_HL
+                - Note that negative values in racquet_balance_HH_HL
+                represent "head heavy" racquet balances
+            - Stiffness -> racquet_stiffness
+            - Beam Width -> racquet_avg_beam_width
+                - Beam width is measured in mm
+            - String Pattern -> racquet_mains & racquet_crosses
+            - String Tension -> racquet_tension_lower 
+            & racquet_tension_upper
+                - String tension is measured in lbs
+
+        - Converted columns removed from df
+        - Column names standardized to "racquet_{feature}"
+    
