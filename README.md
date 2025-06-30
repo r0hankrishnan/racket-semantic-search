@@ -7,4 +7,5 @@
 - [ ] Used cosine similarity to find similar racquets based on NL query
 - [ ] Use NER to extract price and spec filters
 - [ ] Apply price and spec filters to rerank semantic search results
+- [ ] Create an API to call vss from front end
 - [ ] Create a web app to interact with the model
