@@ -178,8 +178,8 @@ if __name__ == "__main__":
                         dataframe to a CSV file? (y/n): ")
     
     if save_toggle.lower().strip() == "y":
-        filename = input("Enter the file name (without .csv): ")
-        complete_racquet_info_df.to_csv(f"{filename}.csv", 
+        filename = input("Enter the file name (including .csv and path): ")
+        complete_racquet_info_df.to_csv(f"{filename}", 
                                         index = False, sep = ",")
     
     else:
