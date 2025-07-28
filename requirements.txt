@@ -1,7 +1,10 @@
-pandas
+pandas==2.3.0
 numpy<2
-matplotlib.pyplot
-seaborn
-requests
-beautifulsoup4
-sentence-transformers
+matplotlib==3.10.3
+seaborn==0.13.2
+requests==2.32.4
+beautifulsoup4==4.13.4
+searchlite==0.2.0
+datashelf==0.2.0
+sentence-transformers==4.1.0
+marimo==0.14.13
