@@ -4,10 +4,44 @@ import pandas as pd
 import numpy as np
 import re
 import logging
+from src.utils import setup_logger
+import datashelf.core as ds
+from tqdm import tqdm
 
-# Helper function to get all brand page URLs
-# from the side navbar
-def get_brand_URLs(shop_all_URL: str) -> list[str]:
+logger = setup_logger(__name__)
+
+# Scraper function
+def scrape_tw_rackets(shop_all_URL:str, file_name:str, datashelf:bool = False, collection_name:str = None, tag:str = None, message:str = None):
+    logger.info("Beginning scraping...")
+    brand_page_URLS = _get_brand_URLs(shop_all_URL = shop_all_URL)
+    
+    logger.info("Scraped brand pages...")
+    
+    complete_racquet_info_df = pd.DataFrame()
+    
+    logger.info("Scraping racquet data...")
+    for brand_URL in tqdm(brand_page_URLS, desc = "Scraping brand pages"):
+        brand_df = _scrape_brand_page(brand_page_URL = brand_URL)
+        complete_racquet_info_df = pd.concat([complete_racquet_info_df, brand_df])
+        
+    logger.info("Scaping complete.")
+    
+    if datashelf:
+        if all(arg is not None for arg in (tag, message, collection_name)):
+            ds.save(
+                df = complete_racquet_info_df,
+                collection_name = collection_name,
+                name = file_name,
+                tag = tag, 
+                message = message 
+            )
+    else:
+        clean_file_name = file_name.strip().lower().replace(" ", "_")
+        complete_racquet_info_df.to_csv(f"{clean_file_name + '.csv'}", index = False, sep = ",")
+
+
+# Helper function to get all brand page URLs from the side navbar  
+def _get_brand_URLs(shop_all_URL: str) -> list[str]:
     webpage = requests.get(shop_all_URL)
     soup = BeautifulSoup(webpage.content, "html.parser")
     sidebar_links = soup \
@@ -25,9 +59,8 @@ def get_brand_URLs(shop_all_URL: str) -> list[str]:
     return brand_page_URLs
 
 
-# Helper function to generate a list of all product page URLs
-# from a given brand page URL
-def get_product_page_URLs(brand_page_URL: str)->list[str]:
+# Helper function to generate a list of all product page URLs from a given brand page URL
+def _get_product_page_URLs(brand_page_URL: str)->list[str]:
     webpage = requests.get(brand_page_URL)
     soup = BeautifulSoup(webpage.content, "html.parser")
     product_elements = soup \
@@ -44,9 +77,8 @@ def get_product_page_URLs(brand_page_URL: str)->list[str]:
     return product_page_URLs
 
 
-# Helper function to extract racquet specs from the product's
-# soup object
-def get_racquet_specs(soup: BeautifulSoup) -> dict:
+# Helper function to extract racquet specs from the product's soup object
+def _get_racquet_specs(soup: BeautifulSoup) -> dict:
     racquet_specs = {}
     
     if soup.find("tbody"):
@@ -61,7 +93,7 @@ def get_racquet_specs(soup: BeautifulSoup) -> dict:
                 label = "Other"
                 value = spec.text.strip()
                 
-                racquet_specs[label] = value
+            racquet_specs[label] = value
     else:
         racquet_specs = {"Head Size": np.nan,
                   "Length": np.nan,
@@ -83,7 +115,7 @@ def get_racquet_specs(soup: BeautifulSoup) -> dict:
 
 
 #Get racquet features from a product page and return a DataFrame
-def get_racquet_features(product_page_URL: str) -> pd.DataFrame:
+def _get_racquet_features(product_page_URL: str) -> pd.DataFrame:
     webpage = requests.get(product_page_URL)
     soup = BeautifulSoup(webpage.content, "html.parser")
     
@@ -113,8 +145,8 @@ def get_racquet_features(product_page_URL: str) -> pd.DataFrame:
         .find("div", attrs = {"class": "check_read-inner"}).text # type:ignore
     
     # Use get_racquet_specs helper function
-    racquet_specs = get_racquet_specs(soup)
-    
+    racquet_specs = _get_racquet_specs(soup)
+
     #Combine top info and specs dictionaries
     racquet_info.update(racquet_specs)
     
@@ -123,27 +155,25 @@ def get_racquet_features(product_page_URL: str) -> pd.DataFrame:
     return racquet_info_df
 
 
-# Get racquet features for all products listed on a brand page
-# and return a DataFrame with all of the information
-def scrape_brand_page(brand_page_URL):
-    product_URLs = get_product_page_URLs(brand_page_URL= brand_page_URL)
+# Get racquet features for all products listed on a brand page and return a DataFrame with all of the information
+def _scrape_brand_page(brand_page_URL):
+    product_URLs = _get_product_page_URLs(brand_page_URL= brand_page_URL)
     
     total_racquet_info_df = pd.DataFrame()
     for product_URL in product_URLs:
-        racquet_info_df = get_racquet_features(product_URL)
+        racquet_info_df = _get_racquet_features(product_URL)
         total_racquet_info_df = pd.concat([total_racquet_info_df,
                                            racquet_info_df])
  
     return total_racquet_info_df
 
 
-# Run scraping functions over all brand pages and store results 
-# in a single DataFrame
-def scrape_all_brand_pages(brand_page_URLs: list[str]) -> pd.DataFrame:
+# Run scraping functions over all brand pages and store results  in a single DataFrame
+def _scrape_all_brand_pages(brand_page_URLs: list[str]) -> pd.DataFrame:
     i = 0
     final_df = pd.DataFrame()
     for brand_URL in brand_page_URLs:
-        df = scrape_brand_page(brand_URL)
+        df = _scrape_brand_page(brand_URL)
         final_df = pd.concat([final_df, df])
         
         logging.debug(f"Completed brand {i}")
@@ -153,34 +183,3 @@ def scrape_all_brand_pages(brand_page_URLs: list[str]) -> pd.DataFrame:
         (if this works on the first try it'd be a miracle)!")
     return final_df
 
-
-# Main function
-if __name__ == "__main__":
-    shop_all_URL = "https://www.tennis-warehouse.com/shop-all-racquets/"
-    
-    brand_page_URLs = get_brand_URLs(shop_all_URL = shop_all_URL)
-    
-    complete_racquet_info_df = pd.DataFrame()
-    
-    for brand_URL in brand_page_URLs:
-        brand_df = scrape_brand_page(brand_page_URL = brand_URL)
-        complete_racquet_info_df = pd.concat(
-            [complete_racquet_info_df, brand_df]
-        )
-    
-    print("Scraping complete. Congrats on not messing up!")
-    print("--------------------------") 
-    print(complete_racquet_info_df.shape)
-    print("--------------------------") 
-    print(complete_racquet_info_df.head(5))
-    
-    save_toggle = input("Do you want to save this \
-                        dataframe to a CSV file? (y/n): ")
-    
-    if save_toggle.lower().strip() == "y":
-        filename = input("Enter the file name (including .csv and path): ")
-        complete_racquet_info_df.to_csv(f"{filename}", 
-                                        index = False, sep = ",")
-    
-    else:
-        print("Ogei bye.")

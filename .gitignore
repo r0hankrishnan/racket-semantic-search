@@ -1,3 +1,14 @@
+# sandbox
+notebooks/sandbox/
+
+# notebook caches
+notebooks/__marimo__/
+notebooks/.ipynb_checkpoints/
+__marimo__/
+
+# VS Code workspace
+*.code-workspace
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -1,0 +1,36 @@
+metadata:
+  collection_name: racquets
+  date_created: '2025-07-26 19:55:42'
+  number_of_files: 3
+  most_recent_commit: /Users/rohankrishnan/Documents/GitHub/racket_semantic_search/.datashelf/racquets/basic_cleaned_data_cleaned.csv
+  max_version: 2
+files:
+- name: racquets_metadata.yaml
+  hash: ''
+  date_created: '2025-07-26 19:55:42'
+  date_last_modified: ''
+  tag: ''
+  version: null
+  message: ''
+  file_path: /Users/rohankrishnan/Documents/GitHub/racket_semantic_search/.datashelf/racquets/racquets_metadata.yaml
+  deleted: false
+- name: Scraped Racquet Data
+  hash: 55dabe54d8b602a3c993460db0bf085737dc2c78a148e6d9fe5ea09f75b0e8ef
+  date_created: '2025-07-26 19:59:16'
+  date_last_modified: '2025-07-26 19:59:16'
+  tag: raw
+  version: 1
+  message: Raw racquet information scraped from each brand's page on tenniswarehouse.com.
+  file_path: /Users/rohankrishnan/Documents/GitHub/racket_semantic_search/.datashelf/racquets/scraped_racquet_data_raw.csv
+  deleted: false
+- name: Basic Cleaned Data
+  hash: ab63aaff96cc00a62726899d4f5ec493772b7b9ab3b5c42ef7aed3b0178e0981
+  date_created: '2025-07-26 23:40:39'
+  date_last_modified: '2025-07-26 23:40:39'
+  tag: cleaned
+  version: 2
+  message: Removed all junior racquets. Removed duplicate columns. Used regex to extract
+    values for specially formatted columns. Standardized column naming. Dropped all
+    non-preprocessed columns.
+  file_path: /Users/rohankrishnan/Documents/GitHub/racket_semantic_search/.datashelf/racquets/basic_cleaned_data_cleaned.csv
+  deleted: false

@@ -1,0 +1,8 @@
+tag_enforcement: true
+allowed_tags:
+- raw
+- intermediate
+- cleaned
+- ad-hoc
+- final
+collection_tag_overrides: {}

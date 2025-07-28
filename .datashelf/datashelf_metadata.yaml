@@ -1,0 +1,13 @@
+metadata:
+  date_created: '2025-07-26 19:55:31'
+  number_of_collections: 1
+  collections:
+  - racquets
+collections:
+- collection_name: racquets
+  date_created: '2025-07-26 19:55:42'
+  date_last_modified: '2025-07-26 23:40:39'
+  files:
+  - racquets_metadata.yaml
+  - Scraped Racquet Data
+  - Basic Cleaned Data
