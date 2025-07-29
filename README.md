@@ -2,6 +2,8 @@
 
 This project explores how semantic search techniques can help users find the right tennis racket using natural language queries.
 
+**This project is a WIP: I am currently exploring different text field combinations and search workflows.**
+
 It includes:
 
 - A web scraper for collecting racket product data
