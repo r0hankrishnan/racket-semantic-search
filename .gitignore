@@ -174,3 +174,4 @@ cython_debug/
 #.idea/
 .DS_Store
 /rss_venv
+/data_deprecated
