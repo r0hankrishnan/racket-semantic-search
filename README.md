@@ -53,7 +53,7 @@ If you are exploring this project well into the future, you may want to scrape T
 
 ```bash
 python run_scraper.py
-python src/embedding/build_index.py
+python run_preprocess.py
 ```
 
 ## Project Structure

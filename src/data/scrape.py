@@ -12,6 +12,17 @@ logger = setup_logger(__name__)
 
 # Scraper function
 def scrape_tw_rackets(shop_all_URL:str, file_name:str, datashelf:bool = False, collection_name:str = None, tag:str = None, message:str = None):
+    """Run all scraping functions
+
+    Args:
+        shop_all_URL (str): URL of 'Shop All' page of TW website
+        file_name (str): Name of file to save
+        datashelf (bool, optional): Use datashelf?. Defaults to False.
+        collection_name (str, optional): Name of collection to save df. Defaults to None.
+        tag (str, optional): Tag for df. Defaults to None.
+        message (str, optional): Save message. Defaults to None.
+    """
+    
     logger.info("Beginning scraping...")
     brand_page_URLS = _get_brand_URLs(shop_all_URL = shop_all_URL)
     
@@ -42,6 +53,15 @@ def scrape_tw_rackets(shop_all_URL:str, file_name:str, datashelf:bool = False, c
 
 # Helper function to get all brand page URLs from the side navbar  
 def _get_brand_URLs(shop_all_URL: str) -> list[str]:
+    """Get brand page URLs from shop all page.
+
+    Args:
+        shop_all_URL (str): Shop all page URL.
+
+    Returns:
+        list[str]: List of URLs.
+    """
+    
     webpage = requests.get(shop_all_URL)
     soup = BeautifulSoup(webpage.content, "html.parser")
     sidebar_links = soup \
@@ -61,6 +81,15 @@ def _get_brand_URLs(shop_all_URL: str) -> list[str]:
 
 # Helper function to generate a list of all product page URLs from a given brand page URL
 def _get_product_page_URLs(brand_page_URL: str)->list[str]:
+    """Get tennis racquet product page URL
+
+    Args:
+        brand_page_URL (str): A brand's racquet display page URL.
+
+    Returns:
+        list[str]: List of tennis racquet listing URLs
+    """
+    
     webpage = requests.get(brand_page_URL)
     soup = BeautifulSoup(webpage.content, "html.parser")
     product_elements = soup \
@@ -79,6 +108,15 @@ def _get_product_page_URLs(brand_page_URL: str)->list[str]:
 
 # Helper function to extract racquet specs from the product's soup object
 def _get_racquet_specs(soup: BeautifulSoup) -> dict:
+    """Extract information from tennis racquet page.
+
+    Args:
+        soup (BeautifulSoup): BeautifulSoup object of tennis racquet page.
+
+    Returns:
+        dict: Dictionary of racquet specs. 
+    """
+    
     racquet_specs = {}
     
     if soup.find("tbody"):
@@ -116,6 +154,15 @@ def _get_racquet_specs(soup: BeautifulSoup) -> dict:
 
 #Get racquet features from a product page and return a DataFrame
 def _get_racquet_features(product_page_URL: str) -> pd.DataFrame:
+    """Get main features and specs from racquet page.
+
+    Args:
+        product_page_URL (str): A product's URL.
+
+    Returns:
+        pd.DataFrame: A dataframe of a racquet and all of the collected features.
+    """
+    
     webpage = requests.get(product_page_URL)
     soup = BeautifulSoup(webpage.content, "html.parser")
     
@@ -156,7 +203,15 @@ def _get_racquet_features(product_page_URL: str) -> pd.DataFrame:
 
 
 # Get racquet features for all products listed on a brand page and return a DataFrame with all of the information
-def _scrape_brand_page(brand_page_URL):
+def _scrape_brand_page(brand_page_URL) -> pd.DataFrame:
+    """Aggregates above helpers to input a brand page and return a dataframe of features of all racquets on page.
+
+    Args:
+        brand_page_URL (_type_): URL of a brand's page.
+
+    Returns:
+        pd.DataFrame: DataFrame of an entire page's racquets and their features.
+    """
     product_URLs = _get_product_page_URLs(brand_page_URL= brand_page_URL)
     
     total_racquet_info_df = pd.DataFrame()
@@ -168,7 +223,7 @@ def _scrape_brand_page(brand_page_URL):
     return total_racquet_info_df
 
 
-# Run scraping functions over all brand pages and store results  in a single DataFrame
+# Run scraping functions over all brand pages and store results  in a single DataFrame -- UNUSED
 def _scrape_all_brand_pages(brand_page_URLs: list[str]) -> pd.DataFrame:
     i = 0
     final_df = pd.DataFrame()
