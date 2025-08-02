@@ -55,6 +55,11 @@ If you are exploring this project well into the future, you may want to scrape T
 
 ```bash
 python run_scraper.py
+```
+
+To run the required basic preprocessing operations on the data:
+
+```bash
 python run_preprocess.py
 ```
 
