@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tennis Warehouse Racquet Finder</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header>
+        <h1>Tennis Warehouse | Racquet Finder</h1>
+    </header>
+
+    <section class="hero">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search racquets by name, brand, or style...">
+            <button onclick="mockSearch()">Search</button>
+        </div>
+    </section>
+
+    <div class="filters">
+        <span>Wilson</span>
+        <span>Babolat</span>
+        <span>Under $200</span>
+        <span>Intermediate</span>
+        <span>Lightweight</span>
+    </div>
+
+    <section class="results" id="results">
+        <!-- Racquet cards will be injected here -->
+    </section>
+
+    <footer>
+        &copy; 2025 Tennis Warehouse. Racquet Finder is a prototype tool.
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

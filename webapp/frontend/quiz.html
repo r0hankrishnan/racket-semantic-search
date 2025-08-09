@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Racquet Finder Quiz</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .quiz-container {
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    .progress {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      color: #888;
+    }
+
+    .question-title {
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .option-btn {
+      padding: 0.8rem 1rem;
+      background: #f1f1f1;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-align: left;
+    }
+
+    .option-btn:hover,
+    .option-btn.selected {
+      background: #005eb8;
+      color: white;
+    }
+
+    .nav-buttons {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .nav-buttons button {
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .nav-buttons .back-btn {
+      background: #ccc;
+      color: white;
+    }
+
+    .nav-buttons .next-btn {
+      background: #005eb8;
+      color: white;
+    }
+
+    .summary {
+      text-align: center;
+    }
+
+    .summary h2 {
+      margin-bottom: 1rem;
+    }
+
+    .summary ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .summary li {
+      margin: 0.5rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container" id="quiz">
+    <div class="progress" id="progress"></div>
+    <div class="question-title" id="questionTitle"></div>
+    <div class="options" id="options"></div>
+    <div class="nav-buttons">
+      <button class="back-btn" id="backBtn">Back</button>
+      <button class="next-btn" id="nextBtn">Next</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        id: 'playerLevel',
+        title: 'What is your playing level?',
+        options: ['Beginner', 'Intermediate', 'Advanced']
+      },
+      {
+        id: 'swingStyle',
+        title: 'What best describes your swing style?',
+        options: ['Short', 'Medium', 'Long']
+      },
+      {
+        id: 'power',
+        title: 'Do you prefer more power or control?',
+        options: ['Power', 'Control', 'Balanced']
+      }
+    ];
+
+    const answers = {};
+    let currentStep = 0;
+
+    const quiz = document.getElementById('quiz');
+    const questionTitle = document.getElementById('questionTitle');
+    const optionsContainer = document.getElementById('options');
+    const progress = document.getElementById('progress');
+    const backBtn = document.getElementById('backBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function renderQuestion() {
+      const step = questions[currentStep];
+      questionTitle.textContent = step.title;
+      progress.textContent = `Step ${currentStep + 1} of ${questions.length}`;
+
+      optionsContainer.innerHTML = '';
+      step.options.forEach(option => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = option;
+
+        if (answers[step.id] === option) {
+          btn.classList.add('selected');
+        }
+
+        btn.onclick = () => {
+          answers[step.id] = option;
+          renderQuestion(); // re-render to highlight selection
+        };
+
+        optionsContainer.appendChild(btn);
+      });
+
+      backBtn.style.display = currentStep > 0 ? 'inline-block' : 'none';
+      nextBtn.textContent = currentStep === questions.length - 1 ? 'Finish' : 'Next';
+    }
+
+    function showSummary() {
+      quiz.innerHTML = `
+        <div class="summary">
+          <h2>Your Preferences</h2>
+          <ul>
+            ${questions.map(q => `<li><strong>${q.title}</strong>: ${answers[q.id]}</li>`).join('')}
+          </ul>
+          <p>We’ll use these to find racquets that match your style.</p>
+        </div>
+      `;
+    }
+
+    backBtn.onclick = () => {
+      if (currentStep > 0) {
+        currentStep--;
+        renderQuestion();
+      }
+    };
+
+    nextBtn.onclick = () => {
+      if (currentStep < questions.length - 1) {
+        currentStep++;
+        renderQuestion();
+      } else {
+        showSummary();
+      }
+    };
+
+    renderQuestion();
+  </script>
+</body>
+</html>

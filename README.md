@@ -74,4 +74,3 @@ python run_preprocess.py
 ## Notes
 
 This is an early-stage data science project focused on experimenting with semantic search in a consumer product context. It is not intended for production or packaging.
-
