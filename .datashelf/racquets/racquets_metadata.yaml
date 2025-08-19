@@ -1,46 +1,46 @@
 metadata:
   collection_name: racquets
-  date_created: '2025-07-26 19:55:42'
+  date_created: '2025-08-18 01:56:24'
   number_of_files: 4
-  most_recent_commit: /Users/rohankrishnan/Documents/GitHub/racket_semantic_search/.datashelf/racquets/no_nj_no_na_data_intermediate.csv
+  most_recent_commit: /Users/rohankrishnan/Documents/GitHub/racket-semantic-search/.datashelf/racquets/basic_preprocessed_data_cleaned.csv
   max_version: 3
 files:
 - name: racquets_metadata.yaml
   hash: ''
-  date_created: '2025-07-26 19:55:42'
+  date_created: '2025-08-18 01:56:24'
   date_last_modified: ''
   tag: ''
   version: null
   message: ''
-  file_path: /Users/rohankrishnan/Documents/GitHub/racket_semantic_search/.datashelf/racquets/racquets_metadata.yaml
+  file_path: /Users/rohankrishnan/Documents/GitHub/racket-semantic-search/.datashelf/racquets/racquets_metadata.yaml
   deleted: false
 - name: Scraped Racquet Data
-  hash: 55dabe54d8b602a3c993460db0bf085737dc2c78a148e6d9fe5ea09f75b0e8ef
-  date_created: '2025-07-26 19:59:16'
-  date_last_modified: '2025-07-26 19:59:16'
+  hash: dd66623d5dbfbb7de53fadc2254dd98b44856729ee0959183ea051ea8445ca8b
+  date_created: '2025-08-18 02:01:08'
+  date_last_modified: '2025-08-18 02:01:08'
   tag: raw
   version: 1
   message: Raw racquet information scraped from each brand's page on tenniswarehouse.com.
-  file_path: /Users/rohankrishnan/Documents/GitHub/racket_semantic_search/.datashelf/racquets/scraped_racquet_data_raw.csv
+  file_path: /Users/rohankrishnan/Documents/GitHub/racket-semantic-search/.datashelf/racquets/scraped_racquet_data_raw.csv
   deleted: false
-- name: Basic Cleaned Data
-  hash: ab63aaff96cc00a62726899d4f5ec493772b7b9ab3b5c42ef7aed3b0178e0981
-  date_created: '2025-07-26 23:40:39'
-  date_last_modified: '2025-07-26 23:40:39'
-  tag: cleaned
+- name: no_nj_no_na_data
+  hash: c6bb95e0a6cff0d313878e162e4eeecd4ea29dbf0cd21c6d5e825431916b1284
+  date_created: '2025-08-18 02:07:03'
+  date_last_modified: '2025-08-18 02:07:03'
+  tag: intermediate
   version: 2
+  message: Removed all junior racquets. Dropped all columns with more than 95% NA
+    values.
+  file_path: /Users/rohankrishnan/Documents/GitHub/racket-semantic-search/.datashelf/racquets/no_nj_no_na_data_intermediate.csv
+  deleted: false
+- name: Basic Preprocessed Data
+  hash: 80c4ecec5ce5c6e86d3e4e7b08f1c2b7fab5c41fc7da3320a0a3d843a0f0c8bf
+  date_created: '2025-08-18 02:08:08'
+  date_last_modified: '2025-08-18 02:08:08'
+  tag: cleaned
+  version: 3
   message: Removed all junior racquets. Removed duplicate columns. Used regex to extract
     values for specially formatted columns. Standardized column naming. Dropped all
     non-preprocessed columns.
-  file_path: /Users/rohankrishnan/Documents/GitHub/racket_semantic_search/.datashelf/racquets/basic_cleaned_data_cleaned.csv
-  deleted: false
-- name: no_nj_no_na_data
-  hash: 148a5ba56bf4140ed4ea010d0dc673641aa84008c81c2e75d8e4d6107c347c6a
-  date_created: '2025-07-28 19:55:21'
-  date_last_modified: '2025-07-28 19:55:21'
-  tag: intermediate
-  version: 3
-  message: Removed all junior racquets. Dropped all columns with more than 95% NA
-    values.
-  file_path: /Users/rohankrishnan/Documents/GitHub/racket_semantic_search/.datashelf/racquets/no_nj_no_na_data_intermediate.csv
+  file_path: /Users/rohankrishnan/Documents/GitHub/racket-semantic-search/.datashelf/racquets/basic_preprocessed_data_cleaned.csv
   deleted: false
